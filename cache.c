@@ -1,16 +1,23 @@
 #include "cache.h"
 #include <string.h>
 
+main_mem_t main_memory;
+
+cache_t cache;
+
 void init() {
-	memset(main_memory, 0, MAIN_MEMORY_SIZE);
+	memset(main_memory.main_mem, 0, MAIN_MEMORY_SIZE);
+	memset(cache.blocks, 0, sizeof(cache.blocks));
+	cache.misses = 0;
+	cache.accesses = 0;
 }
  
 unsigned int get_offset (unsigned int address) {
-	return 0;
+	return address & OFFSET_MASK;
 }
 
 unsigned int find_set(unsigned int address) {
-	return 0;
+	return (address & INDEX_MASK) >> OFFSET_BITS;
 }
 
 unsigned int select_oldest(unsigned int setnum) {

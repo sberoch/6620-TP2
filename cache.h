@@ -1,9 +1,59 @@
 #ifndef CACHE_H
 #define CACHE_H
 
+#define _GNU_SOURCE 
+
+
+#include <stdint.h>
+#include <stdbool.h>
+
 #define MAIN_MEMORY_SIZE 65536
 
-unsigned char main_memory[MAIN_MEMORY_SIZE];
+/*
+*	CACHE
+*	-Cache Size: 16kB
+*	-Block size: 64B
+*	-8WSA => 32 sets.
+*	-FIFO
+*	-WB/WA
+*	-Adresses: 16 bits.
+*
+*	-Offset: 6 bits (BS = 64B).
+*	-Index: 5 bits (32 sets).
+*	-Tag: 5 bits.
+*
+*	-Metadata: Valid, Dirty, Tag, FIFO Counter.
+*/
+
+#define CACHE_SIZE 16384
+#define CACHE_WAYS 8
+#define CACHE_SETS 32
+#define CACHE_BLOCK_SIZE 64
+
+#define OFFSET_BITS 6
+#define INDEX_BITS 5
+#define TAG_BITS 5
+
+#define OFFSET_MASK 0x3f
+#define INDEX_MASK 0x7c0
+
+typedef struct {
+	unsigned char main_mem[MAIN_MEMORY_SIZE];
+} main_mem_t;
+
+typedef struct {
+	bool valid;
+	bool dirty;
+	unsigned char tag;
+	uint16_t counter;
+	unsigned char data[CACHE_BLOCK_SIZE];
+} block_t;
+
+typedef struct {
+	block_t blocks[CACHE_SETS][CACHE_WAYS];
+	uint32_t accesses;
+	uint32_t misses;
+} cache_t;
 
 void init();
 unsigned int get_offset (unsigned int address);
