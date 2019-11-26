@@ -1,6 +1,8 @@
 #include "cache.h"
 #include <string.h>
 
+#define MAX_COUNTER_VALUE 65535
+
 main_mem_t main_memory;
 
 cache_t cache;
@@ -21,11 +23,20 @@ unsigned int find_set(unsigned int address) {
 }
 
 unsigned int select_oldest(unsigned int setnum) {
-	return 0;
+	uint16_t min = MAX_COUNTER_VALUE;
+	unsigned int way;
+	for(unsigned i = 0; i < CACHE_WAYS; ++i) {
+		uint16_t fifo_counter = cache.blocks[setnum][i].counter;
+		if (fifo_counter < min) {
+			min = fifo_counter;
+			way = i;
+		}
+	}
+	return way;
 }
 
 void read_tocache(unsigned int blocknum, unsigned int way, unsigned int set) {
-
+	
 }
 
 unsigned char read_byte(unsigned int address) {
