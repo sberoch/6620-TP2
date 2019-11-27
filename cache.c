@@ -36,7 +36,13 @@ unsigned int select_oldest(unsigned int setnum) {
 }
 
 void read_tocache(unsigned int blocknum, unsigned int way, unsigned int set) {
-	
+	unsigned char* mem_pos = &main_memory.main_mem[blocknum*CACHE_BLOCK_SIZE];
+	memcpy(cache.blocks[set][way].data, mem_pos, CACHE_BLOCK_SIZE);
+
+	cache.blocks[set][way].valid = true;
+	cache.blocks[set][way].dirty = false;
+	//TODO: tag
+	//TODO: fifo counter
 }
 
 unsigned char read_byte(unsigned int address) {
