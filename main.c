@@ -34,9 +34,11 @@ static void readfile(const char* filename) {
 
         } else if (strncmp(line, "R", 1) == 0) {
         	printf("%s\n", "Reading byte.");
+        	read_byte();
 
         } else if (strncmp(line, "W", 1) == 0) {
         	printf("%s\n", "Writing byte.");
+        	write_byte();
 
         } else if (strncmp(line, "MR", 2) == 0) {
         	printf("%s\n", "Showing miss rate.");
