@@ -33,14 +33,17 @@ static void readfile(const char* filename) {
             init();
 
         } else if (strncmp(line, "R", 1) == 0) {
-        	printf("%s\n", "Reading byte.");
-        	read_byte();
+        	unsigned int addr;
+        	sscanf(line, "R %u", &addr);
+        	read_byte(addr);
 
         } else if (strncmp(line, "W", 1) == 0) {
-        	printf("%s\n", "Writing byte.");
-        	write_byte();
+        	unsigned int addr, val_tmp;
+        	sscanf(line, "W %u, %u", &addr, &val_tmp);
+        	unsigned char val = val_tmp;
+        	write_byte(addr, val);
 
-        } else if (strncmp(line, "MR", 2) == 0) {
+        } else if (strncmp(line, "MR", 2) == 0) { 
         	printf("%s\n", "Showing miss rate.");
         	printf("Miss rate: %f\n", get_miss_rate());
 

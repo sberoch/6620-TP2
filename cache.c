@@ -10,7 +10,7 @@ void init() {
 	memset(cache.blocks, 0, sizeof(cache.blocks));
 	cache.misses = 0;
 	cache.accesses = 0;
-	cache.globalcounter = 0;
+	cache.globalCounter = 0;
 }
  
 unsigned int get_offset (unsigned int address) {
@@ -49,11 +49,11 @@ void read_tocache(unsigned int blocknum, unsigned int way, unsigned int set) {
 	}
 	memcpy(cache.blocks[set][way].data, mem_pos, CACHE_BLOCK_SIZE);
 	
-	cache.globalcounter ++;
+	cache.globalCounter ++;
 	cache.blocks[set][way].valid = true;
 	cache.blocks[set][way].dirty = false;
 	cache.blocks[set][way].tag = tag;
-	cache.blocks[set][way].counter = globalcounter;
+	cache.blocks[set][way].counter = cache.globalCounter;
 }
 
 unsigned char read_byte(unsigned int address) {
