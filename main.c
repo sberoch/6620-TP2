@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void readfile(const char* filename);
+static int readfile(const char* filename);
 
 int main(int argc, char const *argv[]) {
 	if (argc != 2) {
@@ -12,11 +12,11 @@ int main(int argc, char const *argv[]) {
 		return 1;
 	}
 	init();
-	readfile(argv[1]);
-	return 0;
+	int ret = readfile(argv[1]);
+	return ret;
 }
 
-static void readfile(const char* filename) {
+static int readfile(const char* filename) {
 	FILE* fp;
 	fp = fopen(filename, "r");
 	if (!fp) {
@@ -34,12 +34,20 @@ static void readfile(const char* filename) {
 
         } else if (strncmp(line, "R", 1) == 0) {
         	unsigned int addr;
-        	sscanf(line, "R %u", &addr);
+        	int ret = sscanf(line, "R %u", &addr);
+        	if (ret != 1) {
+        		fprintf(stderr, "%s\n", "Wrong argument count.");
+        		return 1;
+        	}
         	read_byte(addr);
 
         } else if (strncmp(line, "W", 1) == 0) {
         	unsigned int addr, val_tmp;
-        	sscanf(line, "W %u, %u", &addr, &val_tmp);
+        	int ret = sscanf(line, "W %u, %u", &addr, &val_tmp);
+        	if (ret != 2) {
+        		fprintf(stderr, "%s\n", "Wrong argument count.");
+        		return 1;
+        	}
         	unsigned char val = val_tmp;
         	write_byte(addr, val);
 
@@ -49,12 +57,12 @@ static void readfile(const char* filename) {
 
         } else {
         	fprintf(stderr, "%s\n", "Undefined cmd, exiting program.");
-        	exit(1);
+        	return 1;
         }
 	}
 
 	if (line)
 		free(line);
 	fclose(fp);
-    
+	return 0;
 }
