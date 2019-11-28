@@ -3,7 +3,6 @@
 #include <string.h>
 
 main_mem_t main_memory;
-
 cache_t cache;
 
 void init() {
@@ -11,13 +10,7 @@ void init() {
 	memset(cache.blocks, 0, sizeof(cache.blocks));
 	cache.misses = 0;
 	cache.accesses = 0;
-
-	for(unsigned i = 0; i < CACHE_SETS; ++i){
-		for(unsigned j = 0; j < CACHE_WAYS; ++j) {
-			cache.blocks[i][j].valid = false;
-		}
-	}
-
+	cache.globalcounter = 0;
 }
  
 unsigned int get_offset (unsigned int address) {
@@ -49,17 +42,18 @@ void write_tomem (unsigned int blocknum, unsigned int way, unsigned int set){
 
 void read_tocache(unsigned int blocknum, unsigned int way, unsigned int set) {
 	unsigned char* mem_pos = &main_memory.main_mem[blocknum*CACHE_BLOCK_SIZE];
-	unsigned int tag = ((mem_pos & TAG_MASK) >> OFFSET_BITS)>> INDEX_BITS;
+	unsigned int tag = (blocknum*CACHE_BLOCK_SIZE >> OFFSET_BITS)>> INDEX_BITS;
 	
 	if(cache.blocks[set][way].valid && cache.blocks[set][way].dirty){
 		write_tomem(blocknum, way, set);
 	}
 	memcpy(cache.blocks[set][way].data, mem_pos, CACHE_BLOCK_SIZE);
 	
+	cache.globalcounter ++;
 	cache.blocks[set][way].valid = true;
 	cache.blocks[set][way].dirty = false;
 	cache.blocks[set][way].tag = tag;
-	cache.blocks[set][way].counter = 65535;
+	cache.blocks[set][way].counter = globalcounter;
 }
 
 unsigned char read_byte(unsigned int address) {
@@ -72,6 +66,7 @@ unsigned char read_byte(unsigned int address) {
 
 	for(unsigned i = 0; i < CACHE_WAYS; ++i){
 		if(cache.blocks[set][i].valid && cache.blocks[set][i].tag == tag){
+			way = i;
 			encontrado = true;
 		}
 	}
@@ -81,7 +76,7 @@ unsigned char read_byte(unsigned int address) {
 		read_tocache(blocknum, way, set);
 		cache.misses ++;
 	}
-	resultado = cache.blocks[set][i].data[offset]; 
+	resultado = cache.blocks[set][way].data[offset]; 
 	cache.accesses ++;
 
 	return resultado;
@@ -101,6 +96,7 @@ void write_byte(unsigned int address, unsigned char value) {
 	unsigned int offset = get_offset(address);
 	unsigned int set = find_set(address);
 	unsigned int way;
+	unsigned int blocknum;
 	unsigned int tag = ((address & TAG_MASK) >> OFFSET_BITS)>> INDEX_BITS;
 	bool encontrado = false;
 
@@ -112,8 +108,8 @@ void write_byte(unsigned int address, unsigned char value) {
 	}
 	if(!encontrado){
 		way = select_oldest(set);
+		blocknum = (address & MEMORY_INDEX_MASK) >> OFFSET_BITS;
 		if(cache.blocks[set][way].valid && cache.blocks[set][way].dirty){
-			unsigned int blocknum = (address & MEMORY_INDEX_MASK) >> OFFSET_BITS;
 			write_tomem(blocknum, way, set);
 		}
 		read_tocache(blocknum, way, set);

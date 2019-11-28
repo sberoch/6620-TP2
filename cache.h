@@ -56,6 +56,7 @@ typedef struct {
 	block_t blocks[CACHE_SETS][CACHE_WAYS];
 	uint32_t accesses;
 	uint32_t misses;
+	uint16_t globalCounter;
 } cache_t;
 
 void init();
