@@ -36,7 +36,6 @@
 #define OFFSET_MASK 0x003f
 #define INDEX_MASK 0x07c0
 #define TAG_MASK 0xf800
-#define MEMORY_INDEX_MASK 0xf7c0
 
 #define MAX_COUNTER_VALUE 65535
 
@@ -66,7 +65,7 @@ unsigned int select_oldest(unsigned int setnum);
 void read_tocache(unsigned int blocknum, unsigned int way, unsigned int set);
 unsigned char read_byte(unsigned int address);
 void write_byte(unsigned int address, unsigned char value);
-void write_tomem (unsigned int blocknum, unsigned int way, unsigned int set);
+void write_tomem (unsigned int way, unsigned int set);
 float get_miss_rate();
 
 #endif // CACHE_H

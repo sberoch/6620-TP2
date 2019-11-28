@@ -43,7 +43,6 @@ static int readfile(const char* filename) {
         	if (ret == 1) return ret;
 
         } else if (strncmp(line, "MR", 2) == 0) { 
-        	printf("%s\n", "Showing miss rate.");
         	printf("Miss rate: %f\n", get_miss_rate());
 
         } else {
@@ -68,8 +67,9 @@ static int read(char* line) {
     	fprintf(stderr, "%s\n", "err: addr > main_mem_size");
     	return 1;
     }
-    read_byte(addr);
-	return 0;
+    unsigned char result = read_byte(addr);
+    printf("Read: %u\n", result);
+	return 0; 
 }
 
 static int write(char* line) {
