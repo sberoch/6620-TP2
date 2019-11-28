@@ -1,6 +1,8 @@
 
 #include "cache.h"
 #include <string.h>
+#include <stdio.h>
+
 
 main_mem_t main_memory;
 cache_t cache;
@@ -75,6 +77,9 @@ unsigned char read_byte(unsigned int address) {
 		unsigned int blocknum = (address & MEMORY_INDEX_MASK) >> OFFSET_BITS;
 		read_tocache(blocknum, way, set);
 		cache.misses ++;
+		printf("%s\n", "Miss R");
+	} else {
+		printf("%s\n", "Hit R");
 	}
 	resultado = cache.blocks[set][way].data[offset]; 
 	cache.accesses ++;
@@ -114,6 +119,9 @@ void write_byte(unsigned int address, unsigned char value) {
 		}
 		read_tocache(blocknum, way, set);
 		cache.misses ++;
+		printf("%s\n", "Miss W");
+	} else {
+		printf("%s\n", "Hit W");
 	}
 	cache.blocks[set][way].data[offset] = value;
 	cache.blocks[set][way].dirty = true;
@@ -121,5 +129,6 @@ void write_byte(unsigned int address, unsigned char value) {
 }
 
 float get_miss_rate() {
-	return cache.misses/cache.accesses;
+	printf("%u %u\n", cache.misses, cache.accesses);
+	return (float) cache.misses / (float) cache.accesses;
 }

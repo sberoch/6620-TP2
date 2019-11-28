@@ -5,6 +5,8 @@
 #include <string.h>
 
 static int readfile(const char* filename);
+static int read(char* line);
+static int write(char* line);
 
 int main(int argc, char const *argv[]) {
 	if (argc != 2) {
@@ -33,23 +35,12 @@ static int readfile(const char* filename) {
             init();
 
         } else if (strncmp(line, "R", 1) == 0) {
-        	unsigned int addr;
-        	int ret = sscanf(line, "R %u", &addr);
-        	if (ret != 1) {
-        		fprintf(stderr, "%s\n", "Wrong argument count.");
-        		return 1;
-        	}
-        	read_byte(addr);
+        	int ret = read(line);
+        	if (ret == 1) return ret;
 
         } else if (strncmp(line, "W", 1) == 0) {
-        	unsigned int addr, val_tmp;
-        	int ret = sscanf(line, "W %u, %u", &addr, &val_tmp);
-        	if (ret != 2) {
-        		fprintf(stderr, "%s\n", "Wrong argument count.");
-        		return 1;
-        	}
-        	unsigned char val = val_tmp;
-        	write_byte(addr, val);
+        	int ret = write(line);
+        	if (ret == 1) return ret;
 
         } else if (strncmp(line, "MR", 2) == 0) { 
         	printf("%s\n", "Showing miss rate.");
@@ -66,3 +57,33 @@ static int readfile(const char* filename) {
 	fclose(fp);
 	return 0;
 }
+
+static int read(char* line) {
+	unsigned int addr;
+    int ret = sscanf(line, "R %u", &addr);
+    if (ret != 1) {
+    	fprintf(stderr, "%s\n", "Wrong argument count.");
+    	return 1;
+    } else if (addr >= MAIN_MEMORY_SIZE) {
+    	fprintf(stderr, "%s\n", "err: addr > main_mem_size");
+    	return 1;
+    }
+    read_byte(addr);
+	return 0;
+}
+
+static int write(char* line) {
+	unsigned int addr, val_tmp;
+    int ret = sscanf(line, "W %u, %u", &addr, &val_tmp);
+    if (ret != 2) {
+        fprintf(stderr, "%s\n", "Wrong argument count.");
+        return 1;
+    } else if (addr >= MAIN_MEMORY_SIZE) {
+        fprintf(stderr, "%s\n", "err: addr > main_mem_size");
+        return 1;
+    }
+    unsigned char val = val_tmp;
+    write_byte(addr, val);
+	return 0;
+}
+
