@@ -93,7 +93,7 @@ void write_byte(unsigned int address, unsigned char value) {
 	unsigned int offset = get_offset(address);
 	unsigned int set = find_set(address);
 	unsigned int way;
-	unsigned int tag = ((address & TAG_MASK) >> OFFSET_BITS)>> INDEX_BITS;
+	unsigned int tag = ((address & TAG_MASK) >> OFFSET_BITS) >> INDEX_BITS;
 	bool found = false;
 
 	for(unsigned i = 0; i < CACHE_WAYS; ++i){

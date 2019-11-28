@@ -1,0 +1,63 @@
+Command: W 128, 1
+Miss W
+
+Command: W 129, 2
+Hit W
+
+Command: W 130, 3
+Hit W
+
+Command: W 131, 4
+Hit W
+
+Command: R 2176
+Miss R
+Read value: 0
+
+Command: R 4224
+Miss R
+Read value: 0
+
+Command: R 6272
+Miss R
+Read value: 0
+
+Command: R 8320
+Miss R
+Read value: 0
+
+Command: R 10368
+Miss R
+Read value: 0
+
+Command: R 12416
+Miss R
+Read value: 0
+
+Command: R 14464
+Miss R
+Read value: 0
+
+Command: R 16512
+Miss R
+Read value: 0
+
+Command: R 128
+Miss R
+Read value: 1
+
+Command: R 129
+Hit R
+Read value: 2
+
+Command: R 130
+Hit R
+Read value: 3
+
+Command: R 131
+Hit R
+Read value: 4
+
+Command: MR
+Miss rate: 0.625000
+

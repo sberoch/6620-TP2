@@ -1,0 +1,25 @@
+Command: R 0
+Miss R
+Read value: 0
+
+Command: R 31
+Hit R
+Read value: 0
+
+Command: W 64, 10
+Miss W
+
+Command: R 64
+Hit R
+Read value: 10
+
+Command: W 64, 20
+Hit W
+
+Command: R 64
+Hit R
+Read value: 20
+
+Command: MR
+Miss rate: 0.333333
+

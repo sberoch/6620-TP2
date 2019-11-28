@@ -1,0 +1,66 @@
+Command: W 0, 255
+Miss W
+
+Command: W 2048, 048
+Miss W
+
+Command: W 4096, 096
+Miss W
+
+Command: W 8192, 192
+Miss W
+
+Command: W 16384, 084
+Miss W
+
+Command: W 32768, 068
+Miss W
+
+Command: W 12288, 088
+Miss W
+
+Command: W 20480, 080
+Miss W
+
+Command: R 0
+Hit R
+Read value: 255
+
+Command: R 2048
+Hit R
+Read value: 48
+
+Command: R 4096
+Hit R
+Read value: 96
+
+Command: R 8192
+Hit R
+Read value: 192
+
+Command: R 16384
+Hit R
+Read value: 84
+
+Command: R 32768
+Hit R
+Read value: 68
+
+Command: R 12288
+Hit R
+Read value: 88
+
+Command: R 20480
+Hit R
+Read value: 80
+
+Command: W 10240, 240
+Miss W
+
+Command: R 0
+Miss R
+Read value: 255
+
+Command: MR
+Miss rate: 0.555556
+

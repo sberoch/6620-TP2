@@ -1,0 +1,66 @@
+Command: W 0, 255
+Miss W
+
+Command: W 1, 2
+Hit W
+
+Command: W 2, 3
+Hit W
+
+Command: W 3, 4
+Hit W
+
+Command: W 4, 5
+Hit W
+
+Command: R 0
+Hit R
+Read value: 255
+
+Command: R 1
+Hit R
+Read value: 2
+
+Command: R 2
+Hit R
+Read value: 3
+
+Command: R 3
+Hit R
+Read value: 4
+
+Command: R 4
+Hit R
+Read value: 5
+
+Command: R 4096
+Miss R
+Read value: 0
+
+Command: R 8192
+Miss R
+Read value: 0
+
+Command: R 0
+Hit R
+Read value: 255
+
+Command: R 1
+Hit R
+Read value: 2
+
+Command: R 2
+Hit R
+Read value: 3
+
+Command: R 3
+Hit R
+Read value: 4
+
+Command: R 4
+Hit R
+Read value: 5
+
+Command: MR
+Miss rate: 0.176471
+

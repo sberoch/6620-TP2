@@ -30,6 +30,7 @@ static int readfile(const char* filename) {
     size_t len = 0;
 
 	while(getline(&line, &len, fp) != -1) {
+        printf("Command: %s", line);
 	    if (strncmp(line, "FLUSH", 5) == 0) {
 	    	printf("%s\n", "Flushing.");
             init();
@@ -49,6 +50,7 @@ static int readfile(const char* filename) {
         	fprintf(stderr, "%s\n", "Undefined cmd, exiting program.");
         	return 1;
         }
+        printf("\n");
 	}
 
 	if (line)
@@ -68,7 +70,7 @@ static int read(char* line) {
     	return 1;
     }
     unsigned char result = read_byte(addr);
-    printf("Read: %u\n", result);
+    printf("Read value: %u\n", result);
 	return 0; 
 }
 
